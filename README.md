@@ -6,4 +6,4 @@
 * TImer to time each round.
 
 ## References:
-* Template: (Colorlib)[https://www.colorlib.com]
+* Template: [Colorlib](https://www.colorlib.com)
