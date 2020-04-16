@@ -1,4 +1,4 @@
-# Memory Game
+# Memorify
 [WIP] A simple memory game made using HTML, CSS and JS.
 
 ## Coming soon:
