@@ -66,14 +66,24 @@ let cardArray = [
 // this function jumbles the tiles
 cardArray.sort(() => 0.5 - Math.random());
 
+let remember = [];
+
+let score = 0;
+document.getElementById("result").innerHTML = score;
+
+let cardNumbers = [];
+
 for (let i1 = 0; i1 < document.querySelectorAll("img").length; i1++) {
     document.querySelectorAll("img")[i1].addEventListener("click", function () {
-        loadImage(i1);
+        if (cardArray[i1].open == false) {
+            remember.push(i1);
+            loadImage(i1);
+        }
     });
 }
 
 function loadImage(index) {
-    console.log(index);
+    //console.log(index);
     let card1 = document.querySelectorAll("img")[index];
     card1.setAttribute("src", cardArray[index].img);
     cardArray[index].open = true;
@@ -82,13 +92,38 @@ function loadImage(index) {
 }
 
 function checkImage(index) {
-    //console.log("Picked " + index);
-    let temp = 0;
-    let tempArray = [];
-    for (let i = 0; i < cardArray.length; i++) {
-        if (cardArray[i].open == true) {
-            tempArray[temp++] = i;
-            console.log(tempArray.length);
+    /*
+    if (cardArray[remember[0]].img == cardArray[remember[1]].img) {
+        alert("Match");
+    }*/
+
+    if (remember.length == 2) {
+        if (cardArray[remember[0]].img == cardArray[remember[1]].img) {
+            setTimeout(match, 250);
+        } else {
+            setTimeout(noMatch, 250);
         }
     }
+}
+
+function noMatch() {
+    alert("Try again");
+    document.querySelectorAll("img")[remember[0]].setAttribute("src", "images/blank.png");
+    document.querySelectorAll("img")[remember[1]].setAttribute("src", "images/blank.png");
+
+    cardArray[remember[0]].open = false;
+    cardArray[remember[1]].open = false;
+
+    remember.length = 0;
+}
+
+function match() {
+    alert("Match!");
+    document.querySelectorAll("img")[remember[0]].setAttribute("src", "images/white.png");
+    document.querySelectorAll("img")[remember[1]].setAttribute("src", "images/white.png");
+
+    score++;
+    document.getElementById("result").innerHTML = score;
+
+    remember.length = 0;
 }
