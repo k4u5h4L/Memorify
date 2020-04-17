@@ -69,7 +69,7 @@ cardArray.sort(() => 0.5 - Math.random());
 let remember = [];
 
 let score = 0;
-document.getElementById("result").innerHTML = score;
+//document.getElementById("result").innerHTML = score;
 
 let cardNumbers = [];
 
@@ -123,7 +123,12 @@ function match() {
     document.querySelectorAll("img")[remember[1]].setAttribute("src", "images/white.png");
 
     score++;
-    document.getElementById("result").innerHTML = score;
+    //document.getElementById("result").innerHTML = score;
 
     remember.length = 0;
+
+    if (score == 6) {
+        alert("Congratulations! You have completed the round!!");
+        location.reload();
+    }
 }
