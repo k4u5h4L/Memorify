@@ -1,4 +1,14 @@
 // game.js
+let turnOfPlayers = "p1";
+// false = player1's turn, true = player2's turn
+
+turnOfPlayers = localStorage.getItem("turn");
+
+if (turnOfPlayers == "p2") {
+    document.getElementById("turn").innerHTML = "Player 2.";
+} else {
+    document.getElementById("turn").innerHTML = "Player 1.";
+}
 
 let cardArray = [
     {
@@ -68,6 +78,36 @@ cardArray.sort(() => 0.5 - Math.random());
 
 let remember = [];
 
+let p1Score = 0;
+let p2Score = 0;
+
+p1Score = localStorage.getItem("player1Score");
+
+if (p1Score == null) {
+    document.getElementById("player1").innerHTML = 0;
+} else {
+    document.getElementById("player1").innerHTML = p1Score;
+}
+
+p2Score = localStorage.getItem("player2Score");
+
+if (p2Score == null) {
+    document.getElementById("player2").innerHTML = 0;
+} else {
+    document.getElementById("player2").innerHTML = p2Score;
+}
+
+if (p1Score > p2Score) {
+    document.getElementById("winner").innerHTML = "Player 1";
+} else if (p1Score < p2Score) {
+    document.getElementById("winner").innerHTML = "Player 2";
+} else {
+    document.getElementById("winner").innerHTML = "Draw";
+}
+
+//localStorage.setItem("player1Score", p1Score);
+//localStorage.setItem("player2Score", p2Score);
+
 let score = 0;
 //document.getElementById("result").innerHTML = score;
 
@@ -117,6 +157,9 @@ function noMatch() {
     remember.length = 0;
 }
 
+let p1Time = 0;
+let p2Time = 0;
+
 function match() {
     alert("Match!");
     document.querySelectorAll("img")[remember[0]].setAttribute("src", "images/white.png");
@@ -125,10 +168,40 @@ function match() {
     score++;
     //document.getElementById("result").innerHTML = score;
 
-    remember.length = 0;
+    if (score % 6 == 0) {
+        pauseVal = true;
 
-    if (score == 6) {
+        if (turnOfPlayers == "p2") {
+            p2Time = secs;
+            //p2Score++;
+            //localStorage.setItem("p2Time", secs);
+            //calculateTime();
+
+            localStorage.setItem("player2Score", p2Score);
+            localStorage.setItem("turn", "p1");
+        } else {
+            p1Score++;
+            //p1Time = secs;
+            //localStorage.setItem("p1Time", secs);
+            //calculateTime();
+
+            localStorage.setItem("player1Score", p1Score);
+            localStorage.setItem("turn", "p2");
+        }
+
         alert("Congratulations! You have completed the round!!");
         location.reload();
+    }
+
+    remember.length = 0;
+}
+
+function calculateTime() {
+    if (localStorage.getItem("p2Time") < localStorage.getItem("p1Time")) {
+        p2Score++;
+    } else if (localStorage.getItem("p2Time") > localStorage.getItem("p1Time")) {
+        p1Score++;
+    } else {
+        alert("Both have completed in equal amounts of time. How rare!");
     }
 }
